@@ -83,7 +83,6 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
             [Display(Name = "Role")]
             public string UserRole { get; set; }
 
-            //[Required]
             [Display(Name = "Role")]
             public string RoleId { get; set; }
         }
