@@ -19,6 +19,7 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
 
@@ -30,13 +31,15 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> emailStore;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
+        private readonly RoleManager<ApplicationRole> roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IUserStore<ApplicationUser> userStore,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<ApplicationRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -44,6 +47,7 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
             this.emailStore = this.GetEmailStore();
             this.logger = logger;
             this.emailSender = emailSender;
+            this.roleManager = roleManager;
         }
 
         [BindProperty]
@@ -55,6 +59,11 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "Full Name")]
+            public string FullName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -70,12 +79,21 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Role")]
+            public string UserRole { get; set; }
+
+            //[Required]
+            [Display(Name = "Role")]
+            public string RoleId { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             this.ReturnUrl = returnUrl;
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            IEnumerable<ApplicationRole> roles = this.roleManager.Roles.ToList();
+            this.ViewData["RoleId"] = new SelectList(roles.ToList(), "Id", "Name");
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -86,12 +104,16 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
             {
                 var user = this.CreateUser();
 
-                await this.userStore.SetUserNameAsync(user, this.Input.Email, CancellationToken.None);
-                await this.emailStore.SetEmailAsync(user, this.Input.Email, CancellationToken.None);
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
 
                 if (result.Succeeded)
                 {
+                    var role = this.roleManager.FindByIdAsync(this.Input.UserRole).Result;
+                    if (role != null)
+                    {
+                        await this.userManager.AddToRoleAsync(user, role.Name);
+                    }
+
                     this.logger.LogInformation("User created a new account with password.");
 
                     var userId = await this.userManager.GetUserIdAsync(user);
@@ -123,6 +145,9 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
                 }
             }
 
+            IEnumerable<ApplicationRole> roles = this.roleManager.Roles.ToList();
+            this.ViewData["RoleId"] = new SelectList(roles.ToList(), "Id", "Name");
+
             // If we got this far, something failed, redisplay form
             return this.Page();
         }
@@ -131,7 +156,13 @@ namespace CarServiceManager.Web.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<ApplicationUser>();
+                return new ApplicationUser
+                {
+                    UserName = this.Input.Email,
+                    Email = this.Input.Email,
+                    FullName = this.Input.FullName,
+                    EmailConfirmed = true,
+                };
             }
             catch
             {
