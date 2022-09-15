@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\CarServiceManager.Services.Mapping\CarServiceManager.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Orders\" />
+  </ItemGroup>
+
 </Project>

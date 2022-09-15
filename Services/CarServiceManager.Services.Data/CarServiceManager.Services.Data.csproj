@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\CarServiceManager.Data.Common\CarServiceManager.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\CarServiceManager.Data.Models\CarServiceManager.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\CarServiceManager.Web.ViewModels\CarServiceManager.Web.ViewModels.csproj" />
     <ProjectReference Include="..\CarServiceManager.Services.Mapping\CarServiceManager.Services.Mapping.csproj" />
   </ItemGroup>
 

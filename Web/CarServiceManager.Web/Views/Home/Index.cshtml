@@ -1,9 +1,21 @@
 ﻿@using CarServiceManager.Common
+@using CarServiceManager.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
 @{
     this.ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (this.SignInManager.IsSignedIn(this.User))
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">@GlobalConstants.SystemName!</h1>
+        <a asp-controller="Users" asp-action="Login" class="btn btn-primary">Вход</a>
+    </div>
+}
