@@ -35,7 +35,7 @@
     <tbody>
         @if (!this.User.IsInRole(GlobalConstants.ManagerRoleName))
         {
-            Model.Orders = Model.Orders.Where(x => x.AddedByUserFullName == Model.CurrentUserId);
+            Model.Orders = Model.Orders.Where(x => x.AddedByUserId == Model.CurrentUserId);
         }
         @foreach (var item in Model.Orders)
         {

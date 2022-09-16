@@ -21,6 +21,7 @@
         [Display(Name = "Описание на проблема")]
         public string Description { get; set; }
 
+        public string AddedByUserId { get; set; }
 
         [Display(Name = "Добавена от")]
         public string AddedByUserFullName { get; set; }

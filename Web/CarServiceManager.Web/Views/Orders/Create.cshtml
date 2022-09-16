@@ -1,7 +1,7 @@
 ﻿@model CarServiceManager.Web.ViewModels.Orders.OrderInputModel
 
 @{
-    ViewData["Title"] = "Добавяне на заявка";
+    ViewData["Title"] = "Нова заявка";
 }
 
 <h1>@this.ViewData["Title"]</h1>
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <input type="text" hidden id="id" name="carId" value="@Model.CarId" />
-                <input type="submit" value="Добавяне на заявката" class="btn btn-primary" />
+                <input type="submit" value="Създай" class="btn btn-primary" />
             </div>
         </form>
     </div>
