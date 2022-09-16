@@ -87,7 +87,6 @@
             return this.View();
         }
 
-        [Authorize]
         public IActionResult Logout()
         {
             this.SignOut();
@@ -96,6 +95,9 @@
         }
 
         public IActionResult Edit()
+            => this.View();
+
+        public IActionResult Delete()
             => this.View();
     }
 }

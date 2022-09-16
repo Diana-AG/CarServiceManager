@@ -1,20 +1,20 @@
-﻿@model CarServiceManager.Web.ViewModels.Orders.OrderInputModel
+﻿@model CarServiceManager.Web.ViewModels.Orders.EditOrderInputModel
 
 @{
-    ViewData["Title"] = "Добавяне на заявка";
+    ViewData["Title"] = "Редактиране на заявката";    
 }
 
 <h1>@this.ViewData["Title"]</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
-            <div class="form-group">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
+            </div>            
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <textarea rows="4" asp-for="Description" class="form-control"></textarea>
@@ -22,12 +22,12 @@
             </div>
             <div class="form-group">
                 <input type="text" hidden id="id" name="carId" value="@Model.CarId" />
-                <input type="submit" value="Добавяне на заявката" class="btn btn-primary" />
+                <input type="submit" value="Редактирай" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Всички заявки</a>
+    <a asp-action="Index">Назад към всички заявки</a>
 </div>

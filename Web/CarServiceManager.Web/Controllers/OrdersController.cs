@@ -3,18 +3,23 @@
     using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using CarServiceManager.Data.Models;
     using CarServiceManager.Services.Data;
     using CarServiceManager.Web.ViewModels.Orders;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class OrdersController : BaseController
     {
         private readonly IOrdersService ordersService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public OrdersController(IOrdersService ordersService)
+        public OrdersController(
+            IOrdersService ordersService,
+            UserManager<ApplicationUser> userManager)
         {
             this.ordersService = ordersService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -28,14 +33,71 @@
             return this.View(model);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
             var viewModel = new OrderInputModel
             {
                 Date = DateTime.Now,
+                CarId = id,
             };
 
             return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(OrderInputModel input)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            await this.ordersService.CreateAsync(input, user.Id);
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var order = await this.ordersService.GetByIdAsync<EditOrderInputModel>(id);
+            if (order == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(order);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditOrderInputModel input)
+        {
+            if (id != input.Id)
+            {
+                return this.NotFound();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            await this.ordersService.UpdateAsync(id, input);
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var order = await this.ordersService.GetByIdAsync<OrderInListViewModel>(id);
+            if (order == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(order);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await this.ordersService.DeleteAsync(id);
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

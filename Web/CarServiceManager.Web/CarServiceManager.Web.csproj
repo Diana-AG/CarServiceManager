@@ -9,12 +9,20 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Users\Register.cshtml" />
+  </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
 	</ItemGroup>
 	
 	<ItemGroup>
 		<InternalsVisibleTo Include="CarServiceManager.Web.Tests" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Include="Views\Users\Register.cshtml" />
 	</ItemGroup>
 
   <ItemGroup>

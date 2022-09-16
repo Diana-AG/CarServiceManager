@@ -46,6 +46,8 @@
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             var cars = await this.carsRepository.AllAsNoTracking()
+                .Include(x => x.Brand)
+                .Include(x => x.Color)
                 .OrderBy(x => x.Brand.Name)
                 .To<T>().ToListAsync();
 
