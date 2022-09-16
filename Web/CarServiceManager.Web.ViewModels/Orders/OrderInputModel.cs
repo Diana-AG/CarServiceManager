@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using CarServiceManager.Data.Models;
+    using CarServiceManager.Web.ViewModels.Cars;
 
     public class OrderInputModel
     {
@@ -11,10 +11,9 @@
         [DataType(DataType.DateTime)]
         public DateTime Date { get; set; }
 
-        [Display(Name = "Автомобил")]
         public int CarId { get; set; }
 
-        public virtual Car Car { get; set; }
+        public CarInListViewModel Car { get; set; }
 
         [Required]
         [MinLength(10)]

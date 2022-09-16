@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using CarServiceManager.Data.Models;
     using CarServiceManager.Services.Data;
+    using CarServiceManager.Web.ViewModels.Cars;
     using CarServiceManager.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,16 @@
     public class OrdersController : BaseController
     {
         private readonly IOrdersService ordersService;
+        private readonly ICarsService carsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public OrdersController(
             IOrdersService ordersService,
+            ICarsService carsService,
             UserManager<ApplicationUser> userManager)
         {
             this.ordersService = ordersService;
+            this.carsService = carsService;
             this.userManager = userManager;
         }
 
@@ -33,12 +37,12 @@
             return this.View(model);
         }
 
-        public IActionResult Create(int id)
+        public async Task<IActionResult> Create(int id)
         {
             var viewModel = new OrderInputModel
             {
                 Date = DateTime.Now,
-                CarId = id,
+                Car = await this.carsService.GetByIdAsync<CarInListViewModel>(id),
             };
 
             return this.View(viewModel);

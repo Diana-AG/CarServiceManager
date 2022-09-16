@@ -6,22 +6,32 @@
 
 <h1>@this.ViewData["Title"]</h1>
 <hr />
+<div class="card bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header">@Model.Car.RegistrationNumber</div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Car.CarBrandName</h5>
+        <p class="card-text">@Model.Car.CarColorName</p>
+    </div>
+</div>
+<div>
+    <a asp-controller="Cars" asp-action="Index">Избери друг автомобил</a>
+</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div asp-validation-summary="ModelOnly" class="small text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
                 <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <span asp-validation-for="Date" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea rows="4" asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <textarea rows="8" asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="text" hidden id="id" name="carId" value="@Model.CarId" />
+                <input type="text" hidden id="id" name="carId" value="@Model.Car.CarId" />
                 <input type="submit" value="Създай" class="btn btn-primary" />
             </div>
         </form>
