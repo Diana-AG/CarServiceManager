@@ -11,6 +11,7 @@
         [Display(Name = "Цвят")]
         public int ColorId { get; set; }
 
+        [Required]
         [Display(Name = "Регистрационен номер")]
         public string RegistrationNumber { get; set; }
 
