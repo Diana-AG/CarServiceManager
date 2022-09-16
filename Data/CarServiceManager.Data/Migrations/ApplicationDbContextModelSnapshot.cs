@@ -253,6 +253,9 @@ namespace CarServiceManager.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AddedByUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
@@ -274,16 +277,13 @@ namespace CarServiceManager.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AddedByUserId");
 
                     b.HasIndex("CarId");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -448,19 +448,19 @@ namespace CarServiceManager.Data.Migrations
 
             modelBuilder.Entity("CarServiceManager.Data.Models.Order", b =>
                 {
+                    b.HasOne("CarServiceManager.Data.Models.ApplicationUser", "AddedByUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("AddedByUserId");
+
                     b.HasOne("CarServiceManager.Data.Models.Car", "Car")
                         .WithMany("Orders")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CarServiceManager.Data.Models.ApplicationUser", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                    b.Navigation("AddedByUser");
 
                     b.Navigation("Car");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

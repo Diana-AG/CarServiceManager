@@ -67,6 +67,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<ICarsService, CarsService>();
         }
 
         private static void Configure(WebApplication app)
