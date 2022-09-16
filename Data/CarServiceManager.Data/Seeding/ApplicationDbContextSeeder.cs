@@ -27,6 +27,9 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new ManagerSeeder(),
+                              new BrandsSeeder(),
+                              new ColorsSeeder(),
                           };
 
             foreach (var seeder in seeders)
