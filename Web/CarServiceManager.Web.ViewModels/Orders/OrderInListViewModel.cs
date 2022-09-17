@@ -13,7 +13,7 @@
         public string Id { get; set; }
 
         [Display(Name = "Дата и час")]
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         [Display(Name = "Автомобил")]
         public string CarBrandName { get; set; }
@@ -30,7 +30,9 @@
         {
             configuration.CreateMap<Order, OrderInListViewModel>()
                 .ForMember(x => x.Id, options =>
-                    options.MapFrom(x => x.Id.ToString("0000000000")));
+                    options.MapFrom(x => x.Id.ToString("0000000000")))
+                .ForMember(x => x.Date, options =>
+                    options.MapFrom(x => x.Date.ToString("dd-MM-yyyy HH:mm")));
         }
     }
 }
