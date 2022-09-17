@@ -41,7 +41,6 @@
         {
             var viewModel = new OrderInputModel
             {
-                Date = DateTime.Now,
                 Car = await this.carsService.GetByIdAsync<CarInListViewModel>(id),
             };
 

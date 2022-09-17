@@ -1,16 +1,10 @@
 ﻿namespace CarServiceManager.Web.ViewModels.Orders
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-
     using CarServiceManager.Web.ViewModels.Cars;
+    using System.ComponentModel.DataAnnotations;
 
     public class OrderInputModel
     {
-        [Display(Name = "Дата и час")]
-        [DataType(DataType.DateTime)]
-        public DateTime Date { get; set; }
-
         public int CarId { get; set; }
 
         public CarInListViewModel Car { get; set; }

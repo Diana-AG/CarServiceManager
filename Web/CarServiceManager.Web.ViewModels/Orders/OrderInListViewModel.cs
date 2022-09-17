@@ -10,7 +10,7 @@
     public class OrderInListViewModel : IMapFrom<Order>, IHaveCustomMappings
     {
         [Display(Name = "Номер на заявката")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Display(Name = "Дата и час")]
         public DateTime Date { get; set; }
@@ -29,10 +29,8 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Order, OrderInListViewModel>()
-                  .ForMember(x => x.CarBrandName, options =>
-                      options.MapFrom(x => x.Car.Brand.Name))
-                  .ForMember(x => x.AddedByUserFullName, options =>
-                      options.MapFrom(x => x.AddedByUser.FullName));
+                .ForMember(x => x.Id, options =>
+                    options.MapFrom(x => x.Id.ToString("0000000000")));
         }
     }
 }

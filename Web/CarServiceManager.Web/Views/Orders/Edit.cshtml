@@ -1,11 +1,18 @@
 ﻿@model CarServiceManager.Web.ViewModels.Orders.EditOrderInputModel
 
 @{
-    ViewData["Title"] = "Редактиране на заявката";    
+    ViewData["Title"] = $"Редактиране на заявка {@Model.Id.ToString("0000000000")}";    
 }
 
-<h1>@this.ViewData["Title"]</h1>
+<h4>@this.ViewData["Title"]</h4>
 <hr />
+<div class="card bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header">@Model.Car.RegistrationNumber</div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Car.CarBrandName</h5>
+        <p class="card-text">@Model.Car.CarColorName</p>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">

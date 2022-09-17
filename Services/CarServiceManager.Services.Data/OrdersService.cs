@@ -25,7 +25,7 @@
             var order = new Order
             {
                 CarId = input.CarId,
-                Date = input.Date,
+                Date = DateTime.Now,
                 Description = input.Description,
                 AddedByUserId = userId,
             };
