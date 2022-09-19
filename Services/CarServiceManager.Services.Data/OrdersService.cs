@@ -61,6 +61,20 @@
             return order;
         }
 
+        public IEnumerable<T> GetBySearch<T>(string searchInput)
+        {
+            searchInput = searchInput.Trim();
+            var orders = this.ordersRepository.All()
+                .Where(x => x.Id.ToString().Contains(searchInput)
+                || x.Date.ToString().Contains(searchInput)
+                || x.Car.Brand.Name.Contains(searchInput)
+                || x.Car.Color.Name.Contains(searchInput)
+                || x.Car.RegistrationNumber.Contains(searchInput))
+                .To<T>().ToList();
+
+            return orders;
+        }
+
         public async Task UpdateAsync(int id, EditOrderInputModel input)
         {
             var order = this.ordersRepository.All().FirstOrDefault(x => x.Id == id);

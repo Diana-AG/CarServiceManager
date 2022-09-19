@@ -16,5 +16,7 @@
         Task DeleteAsync(int id);
 
         Task UpdateAsync(int id, EditOrderInputModel input);
+
+        IEnumerable<T> GetBySearch<T>(string searchInput);
     }
 }

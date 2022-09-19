@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class SearchInputModel
+    public class SearchOrdersInputModel
     {
         [Required]
         [Display(Name = "Търсене в заявките")]
